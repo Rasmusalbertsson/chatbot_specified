@@ -14,12 +14,18 @@ from geography import GeographyChatbot
 import textwrap
 import tiktoken
 
-class ChatbotApp(App):
+class ChatbotApp(App):   
     def build(self):
+        """
+        Builds the main application layout, initializes widgets, and configures the user interface.
+
+        Returns:
+            FloatLayout: The root widget containing all other widgets for the application.
+        """
         layout = FloatLayout()
         Window.size = (700, 900)
 
-        # Bakgrundsbild
+        # Backround image
         background = Image(
             source='backround.png',
             allow_stretch=True,
@@ -28,7 +34,7 @@ class ChatbotApp(App):
             pos_hint={'center_x': 0.5, 'center_y': 0.5})
         layout.add_widget(background)
 
-        # Knappar
+        # Buttons
         btn_layout = BoxLayout(size_hint=(1, None),
                                height=70,
                                pos_hint={'top': 1})
@@ -41,7 +47,7 @@ class ChatbotApp(App):
             btn_layout.add_widget(btn)
         layout.add_widget(btn_layout)
 
-        # Användarens fråga och chatbottens svars Labels
+        # Users question and chatbot answer labels
         self.user_query_label = Label(size_hint=(1,None),
                                       color = (1,0,0,1), 
                                       height=100,
@@ -70,7 +76,7 @@ class ChatbotApp(App):
         layout.add_widget(self.user_query_label)
         layout.add_widget(scroll_view)
 
-        # Textinmatning
+        # Text input field
         self.text_input = TextInput(size_hint =(1,None),
                                     hint_text = "Message bot...",
                                     hint_text_color=(0.2, 1, 0.2, 1),
@@ -82,7 +88,7 @@ class ChatbotApp(App):
         self.text_input.bind(on_text_validate=self.on_text_enter)
         layout.add_widget(self.text_input)
 
-        # Avsluta-knapp
+        # Quit button
         end_chat_btn = Button(text='End Chat',
                                 size_hint=(1, None),
                                 height=75,
@@ -94,9 +100,25 @@ class ChatbotApp(App):
         return layout
 
     def wrap_text(self, text, width=50):
+        """
+        Wraps the given text to a specified width.
+
+        Args:
+            text (str): The text to wrap.
+            width (int): The maximum line width in characters.
+
+        Returns:
+            str: The wrapped text.
+        """
         return '\n'.join(textwrap.wrap(text, width))
 
     def on_topic_select(self, instance):
+        """
+        Handles topic selection, initializes the appropriate chatbot based on the selected topic.
+
+        Args:
+            instance (Button): The button instance that was pressed.
+        """
         topic = instance.text
         if topic == "Math":
             self.chatbot = MathChatbot()
@@ -110,18 +132,22 @@ class ChatbotApp(App):
         else:
             self.chatbot = GeographyChatbot()
             self.botname = "Bot-Geo Expert"
-    # Lägg till liknande logik för andra ämnen
 
-        # Lägg till liknande logik för andra ämnen
-
+    
     def on_text_enter(self, instance):
+        """
+        Processes the text entered by the user, displays the query, fetches and displays the response from the chatbot.
+
+        Args:
+            instance (TextInput): The text input instance where the user entered the message.
+        """
         user_query = instance.text
         self.user_query_label.text = "You: " + user_query
         if self.chatbot:
             response = self.chatbot.get_response(user_query)
             self.chatbot_response_label.text = f"{self.botname}: " + response
            
-            instance.text = ''  # Lägg till denna rad för att rensa TextInput efter frågan
+            instance.text = ''
             tokens = self.num_tokens_from_messages(response)
             self.token_label.text = f"TOTAL TOKEN USED IN THIS CONVERSATION: {tokens}"
             print(response)
@@ -129,13 +155,31 @@ class ChatbotApp(App):
 
     
     def on_end_chat(self, instance):
+        """
+        Ends the chat session and closes the application.
+
+        Args:
+            instance (Button): The button instance that was pressed to end the chat.
+        """
         self.user_query_label.text = ""
         self.chatbot_response_label.text = ""
         self.chatbot = None
         App.get_running_app().stop()
 
     def num_tokens_from_messages(self,messages, model="gpt-3.5-turbo-0613"):
-        """Return the number of tokens used by a list of messages."""
+        """
+        Calculates the number of tokens used by a list of messages.
+
+        Args:
+            messages (list of str): Messages for which to calculate the token count.
+            model (str): The model name based on which token calculations are performed.
+
+        Returns:
+            int: The total number of tokens used.
+
+        Raises:
+            NotImplementedError: If the model is not supported for token calculation.
+        """
         try:
             encoding = tiktoken.encoding_for_model(model)
         except KeyError:
