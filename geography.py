@@ -1,14 +1,9 @@
 import os
 import openai
 from openai import OpenAI
-''' LÄNGRE PROMPT
-    , including physical 
-                landscapes, climate patterns, and cultural geography. 
-                Your knowledge spans continents, countries, and diverse ecosystems.
-'''
+
 class GeographyChatbot:
     def __init__(self,) -> None:
-        #self.api_key = os.environ['OPENAI_API_KEY'] = open("key.txt").read()
         self.api_key = os.environ['OPENAI_API_KEY'] = open("key.txt").read().strip()
         self.model = "gpt-3.5-turbo"
         self.client = OpenAI()
@@ -21,8 +16,8 @@ class GeographyChatbot:
         ]
     def get_response(self, user_query):
         openai.api_key = self.api_key
-
-        # Lägg till användarens senaste förfrågan till meddelandehistoriken
+        
+        # adding the user request to message history
         self.messages.append({"role": "user", "content": user_query})
         try:
             response = self.client.chat.completions.create(
@@ -30,7 +25,7 @@ class GeographyChatbot:
                 messages=self.messages
             )
 
-            # Lägg till chatbottens svar till meddelandehistoriken
+            # adding the chatbot answer to message history
             bot_response = response.choices[0].message.content
             self.messages.append({"role": "assistant", "content": bot_response})
 
