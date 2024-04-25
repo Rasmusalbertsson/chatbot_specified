@@ -1,13 +1,13 @@
 import os
 import openai
 from openai import OpenAI
-'''
-            You provide detailed, accurate information about classic car
-            restoration, maintenance, and collectibility.
-'''
+
 class OldCarsChatbot:
+    '''
+               You provide detailed, accurate information about classic car
+               restoration, maintenance, and collectibility.
+    '''
     def __init__(self,) -> None:
-        #self.api_key = os.environ['OPENAI_API_KEY'] = open("key.txt").read()
         self.api_key = os.environ['OPENAI_API_KEY'] = open("key.txt").read().strip()
         self.model = "gpt-3.5-turbo"
         self.client = OpenAI()
