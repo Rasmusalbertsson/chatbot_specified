@@ -1,19 +1,9 @@
 import os
 import openai
 from openai import OpenAI
-''' LÄNGRE PROMPT
-         You are programmed to focus
-                solely on answering math-related questions.
-                You are adept at explaining
-                complex mathematical concepts in an
-                understandable way, solving mathematical problems,
-                and providing step-by-step solutions.
-                Your goal is to assist users in understanding
-                and solving their math queries.
-'''
+
 class MathChatbot:
     def __init__(self,) -> None:
-        #self.api_key = os.environ['OPENAI_API_KEY'] = open("key.txt").read()
         self.api_key = os.environ['OPENAI_API_KEY'] = open("key.txt").read().strip()
         self.model = "gpt-3.5-turbo"
         self.client = OpenAI()
