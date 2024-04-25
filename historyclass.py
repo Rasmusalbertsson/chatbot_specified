@@ -1,17 +1,6 @@
 import os
 import openai
 from openai import OpenAI
-''' more specified PROMPT
-     Your expertise covers
-            various periods and aspects of history including ancient 
-            civilizations, medieval times, modern history, and specific 
-            historical events. You are programmed to focus solely on 
-            answering history-related questions with clarity and precision.
-            You are adept at explaining complex historical events and concepts
-            in an understandable way. Your goal is to assist users in
-            understanding and exploring their history queries,
-            ensuring the information is reliable and comprehensible.
-'''
 
 class HistoryChatbot:
     def __init__(self,) -> None:
