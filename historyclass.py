@@ -1,7 +1,7 @@
 import os
 import openai
 from openai import OpenAI
-''' LÄNGRE PROMPT
+''' more specified PROMPT
      Your expertise covers
             various periods and aspects of history including ancient 
             civilizations, medieval times, modern history, and specific 
@@ -15,7 +15,6 @@ from openai import OpenAI
 
 class HistoryChatbot:
     def __init__(self,) -> None:
-        #self.api_key = os.environ['OPENAI_API_KEY'] = open("key.txt").read()
         self.api_key = os.environ['OPENAI_API_KEY'] = open("key.txt").read().strip()
         self.model = "gpt-3.5-turbo"
         self.client = OpenAI()
@@ -24,9 +23,9 @@ class HistoryChatbot:
             specialized in providing detailed and accurate responses 
             to a wide range of historical queries.
             Remember, you do not engage in discussions unrelated to history."
-"""
-}
-        ]
+            """
+               }
+            ]
     def get_response(self, user_query):
         openai.api_key = self.api_key
 
